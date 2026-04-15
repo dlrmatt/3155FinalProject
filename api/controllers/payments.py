@@ -2,15 +2,28 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Response, Depends
 from ..models import payments as model
 from sqlalchemy.exc import SQLAlchemyError
+from ..models import orders as order_model
 
 
 def create(db: Session, request):
+    calculated_status = "Approved"
+    order = db.query(order_model.Order).filter(order_model.Order.id == request.order_id).first()
+    if not order:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found!")
+    
+    if request.amount >= order.totalPrice:
+        calculated_status = "Paid"
+        order.orderStatus = "Paid"
+    else:
+        calculated_status = "Declined"
+        order.orderStatus = "Declined"
+
     new_item = model.Payments(
         order_id=request.order_id,
         payment_method=request.payment_method,
         amount=request.amount,
         payment_date=request.payment_date,
-        payment_status=request.payment_status
+        payment_status=calculated_status
     )
 
     try:
