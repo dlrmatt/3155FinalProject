@@ -6,6 +6,7 @@ import uuid
 from ..models import menu_items as menu_model
 from ..models import order_details as order_detail_model
 from ..models import promotions as promotion_model
+from ..models import resources as resource_model
 
 def create(db: Session, request):
     totalPrice = 0.0
@@ -47,7 +48,15 @@ def create(db: Session, request):
         except SQLAlchemyError as e:
             error = str(e.__dict__['orig'])
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
+    
+        inventory_item = db.query(resource_model.Resource).filter(
+            resource_model.Resource.name == menu_item.item_name).first()    
 
+        if inventory_item:
+            inventory_item.amount -= 1
+            db.commit()
+            db.refresh(inventory_item)
+    
     return new_order
 
 
