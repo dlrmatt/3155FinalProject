@@ -3,7 +3,7 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class MenuItem(BaseModel):
+class MenuItemBase(BaseModel):
     item_name: str
     price: float
     food_category: str

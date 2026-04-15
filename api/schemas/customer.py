@@ -3,7 +3,7 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class Customers(BaseModel):
+class CustomerBase(BaseModel):
     name: str
     email: str
     phone: str
@@ -19,7 +19,7 @@ class CustomersUpdate(BaseModel):
     phone: Optional[str] = None
     address: Optional[str] = None
 
-class Customers(CustomerBase):
+class Customer(CustomerBase):
     id: int
 
     class ConfigDict:
