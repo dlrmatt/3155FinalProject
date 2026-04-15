@@ -30,15 +30,15 @@ def create(db: Session, request):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
 
     for menu_item in menu_items_list:
-        new_order = detail = order_detail_model.OrderDetail(
+        new_detail = order_detail_model.OrderDetail(
             order_id=new_order.id,
             menu_item_id=menu_item.id,
             quantity=1
         )
         try:
-            db.add(new_order)
+            db.add(new_detail)
             db.commit()
-            db.refresh(new_order)
+            db.refresh(new_detail)
         except SQLAlchemyError as e:
             error = str(e.__dict__['orig'])
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
