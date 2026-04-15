@@ -8,8 +8,11 @@ class Order(Base):
     __tablename__ = "orders"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    customer_name = Column(String(100))
-    order_date = Column(DATETIME, nullable=False, server_default=str(datetime.now()))
-    description = Column(String(300))
+    trackingNumber = Column(String(100), unique=True, nullable=True)
+    orderDate = Column(DATETIME, nullable=False, server_default=str(datetime.now()))
+    totalPrice = Column(DECIMAL(4, 2), nullable=False, server_default='0.0')
+    orderStatus = Column(String(100), nullable=True)
 
-    order_details = relationship("OrderDetail", back_populates="order")
+    customer = Column(Integer, ForeignKey("customers.id"))
+    payment = Column(Integer, ForeignKey("payments.id"))
+    promotion = Column(Integer, ForeignKey("promotions.id"))

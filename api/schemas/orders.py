@@ -11,7 +11,7 @@ class OrderBase(BaseModel):
 
 
 class OrderCreate(OrderBase):
-    pass
+    menu_item_id: list[int]
 
 
 class OrderUpdate(BaseModel):
