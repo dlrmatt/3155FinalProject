@@ -12,6 +12,7 @@ class OrderBase(BaseModel):
 
 class OrderCreate(OrderBase):
     menu_item_id: list[int]
+    promotion_id: Optional[int] = None
 
 
 class OrderUpdate(BaseModel):

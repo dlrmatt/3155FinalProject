@@ -5,7 +5,7 @@ from sqlalchemy.exc import SQLAlchemyError
 import uuid
 from ..models import menu_items as menu_model
 from ..models import order_details as order_detail_model
-
+from ..models import promotions as promotion_model
 
 def create(db: Session, request):
     totalPrice = 0.0
@@ -14,6 +14,11 @@ def create(db: Session, request):
     menu_items_list = db.query(menu_model.MenuItem).filter(menu_model.MenuItem.id.in_(request.menu_item_id)).all()
     for menu_item in menu_items_list:
         totalPrice += menu_item.price
+
+    if request.promotion_id:
+        promotion = db.query(promotion_model.Promotions).filter(promotion_model.Promotions.id == request.promotion_id).first()       
+        if promotion:
+            totalPrice -= promotion.discount
     
     new_order = model.Order(
         customer_id=request.customer_id,
