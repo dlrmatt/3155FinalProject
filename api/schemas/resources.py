@@ -6,6 +6,7 @@ from pydantic import BaseModel
 class ResourceBase(BaseModel):
     name: str
     quantity: int
+    menu_item_id: int
 
 
 class ResourceCreate(ResourceBase):

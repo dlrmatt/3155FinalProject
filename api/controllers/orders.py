@@ -55,10 +55,10 @@ def create(db: Session, request):
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     
         inventory_item = db.query(resource_model.Resource).filter(
-            resource_model.Resource.name == menu_item.item_name).first()    
+            resource_model.Resource.menu_item_id == menu_item.id).first()
 
         if inventory_item:
-            inventory_item.amount -= 1
+            inventory_item.quantity -= 1
             db.commit()
             db.refresh(inventory_item)
     

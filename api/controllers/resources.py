@@ -7,7 +7,8 @@ from sqlalchemy.exc import SQLAlchemyError
 def create(db: Session, request):
     new_item = model.Resource(
         name=request.name,
-        quantity=request.amount,
+        quantity=request.quantity,
+        menu_item_id=request.menu_item_id
     )
 
     try:

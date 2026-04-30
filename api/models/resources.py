@@ -11,4 +11,4 @@ class Resource(Base):
     name = Column(String(100), unique=True, nullable=False)
     quantity = Column(Integer, index=True, nullable=False, server_default='0.0')
 
-    #recipes = relationship("Recipe", back_populates="resource")
+    menu_item_id = Column(Integer, ForeignKey("menu_items.id"), unique=True)
