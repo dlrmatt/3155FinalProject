@@ -1,31 +1,25 @@
+from fastapi import FastAPI
 from fastapi.testclient import TestClient
-from ..controllers import orders as controller
-from ..main import app
-import pytest
-from ..models import orders as model
+from ..routers.orders import router
+from ..dependencies.database import get_db
+from unittest.mock import MagicMock
+from datetime import datetime
 
-# Create a test client for the app
+app = FastAPI()
+app.include_router(router)
 client = TestClient(app)
 
+mock = MagicMock()
 
-@pytest.fixture
-def db_session(mocker):
-    return mocker.Mock()
+def override_get_db():
+    return mock
 
+app.dependency_overrides[get_db] = override_get_db
 
-def test_create_order(db_session):
-    # Create a sample order
-    order_data = {
-        "customer_name": "John Doe",
-        "description": "Test order"
-    }
+testOrder = [{"id": 1,"customer_id": 1,"tracking_number": "TEST-123","order_type": "delivery","order_status": "Testing","total_price": 0,"order_date": datetime.now()}]
 
-    order_object = model.Order(**order_data)
-
-    # Call the create function
-    created_order = controller.create(db_session, order_object)
-
-    # Assertions
-    assert created_order is not None
-    assert created_order.customer_name == "John Doe"
-    assert created_order.description == "Test order"
+def test_read_all_orders():
+    mock.query.return_value.all.return_value = testOrder
+    response = client.get("/orders")
+    assert response.status_code == 200
+    assert (response.json()[0]["tracking_number"] == "TEST-123" )
