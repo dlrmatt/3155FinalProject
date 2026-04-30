@@ -3,9 +3,12 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class Review(BaseModel):
+class ReviewBase(BaseModel):
+    customer_id: int
+    order_id: int
     rating: int
     comment: str
+    review_date: datetime
 
 
 class ReviewCreate(ReviewBase):

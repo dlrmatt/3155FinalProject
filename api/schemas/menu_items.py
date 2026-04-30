@@ -5,10 +5,11 @@ from pydantic import BaseModel
 
 class MenuItemBase(BaseModel):
     item_name: str
+    description: Optional[str] = None
     price: float
     food_category: str
     calories: int
-    
+    is_available: bool
 
 
 class MenuItemCreate(MenuItemBase):

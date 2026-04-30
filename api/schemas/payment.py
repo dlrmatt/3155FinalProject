@@ -1,27 +1,35 @@
 from datetime import datetime
+from enum import Enum
 from typing import Optional
 from pydantic import BaseModel
 
+class PaymentMethod(str, Enum):
+    gift_card = "gift_card"
+    credit_card = "credit_card"
+    debit_card = "debit_card"
 
 class Payment(BaseModel):
+    id: int
     order_id: int
     amount: float
-    payment_method: str
+    card_info: str
+    payment_method: PaymentMethod
     payment_status: str
+    payment_date: datetime
 
 
-class PaymentCreate(PaymentBase):
+class PaymentCreate(Payment):
     pass
 
 
 class PaymentUpdate(BaseModel):
     order_id: Optional[int] = None
     amount: Optional[float] = None
-    payment_method: Optional[str] = None
+    payment_method: Optional[PaymentMethod] = None
     payment_status: Optional[str] = None
 
 
-class Payment(PaymentBase):
+class Payment(Payment):
     id: int
 
     class ConfigDict:

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, FastAPI, status, Response
 from sqlalchemy.orm import Session
 from ..controllers import payments as controller
-from ..schemas import payments as schema
+from ..schemas import payment as schema
 from ..dependencies.database import engine, get_db
 
 router = APIRouter(
@@ -11,7 +11,7 @@ router = APIRouter(
 
 
 @router.post("/", response_model=schema.Payment)
-def create(request: schema.OrderCreate, db: Session = Depends(get_db)):
+def create(request: schema.PaymentCreate, db: Session = Depends(get_db)):
     return controller.create(db=db, request=request)
 
 

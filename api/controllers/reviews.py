@@ -6,11 +6,11 @@ from sqlalchemy.exc import SQLAlchemyError
 
 def create(db: Session, request):
     new_item = model.Reviews(
-        product_id=request.product_id,
+        customer_id=request.customer_id,
+        order_id=request.order_id,
         rating=request.rating,
-        review_text=request.review_text,
+        comment=request.comment,
         review_date=request.review_date,
-        is_active=request.is_active
     )
 
     try:

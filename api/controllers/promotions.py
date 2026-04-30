@@ -11,7 +11,6 @@ def create(db: Session, request):
         discount_value=request.discount_value,
         start_date=request.start_date,
         end_date=request.end_date,
-        is_active=request.is_active
     )
 
     try:

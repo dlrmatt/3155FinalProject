@@ -9,22 +9,27 @@ from ..models import promotions as promotion_model
 from ..models import resources as resource_model
 
 def create(db: Session, request):
-    totalPrice = 0.0
-    trackingNumber = "ORD-" + str(uuid.uuid4())[:8]
+    total_price = 0.0
+    tracking_number = "ORD-" + str(uuid.uuid4())[:8]
 
     menu_items_list = db.query(menu_model.MenuItem).filter(menu_model.MenuItem.id.in_(request.menu_item_id)).all()
     for menu_item in menu_items_list:
-        totalPrice += menu_item.price
+        total_price += float(menu_item.price)
 
     if request.promotion_id:
         promotion = db.query(promotion_model.Promotions).filter(promotion_model.Promotions.id == request.promotion_id).first()       
         if promotion:
-            totalPrice -= promotion.discount
+            total_price -= float(promotion.discount_value)
     
     new_order = model.Order(
         customer_id=request.customer_id,
-        tracking_number=trackingNumber,
-        total_price=totalPrice
+        tracking_number=tracking_number,
+        total_price=total_price,
+        order_date=request.order_date,
+        description=request.description,
+        order_type=request.order_type,
+        delivery_address=request.delivery_address,
+        order_status=request.order_status,
     )
 
     try:

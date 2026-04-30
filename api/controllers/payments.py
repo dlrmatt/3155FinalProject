@@ -11,7 +11,7 @@ def create(db: Session, request):
     if not order:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found!")
     
-    if request.amount >= order.totalPrice:
+    if request.amount >= order.total_price:
         calculated_status = "Paid"
         order.orderStatus = "Paid"
     else:
@@ -20,6 +20,7 @@ def create(db: Session, request):
 
     new_item = model.Payments(
         order_id=request.order_id,
+        card_info=request.card_info,
         payment_method=request.payment_method,
         amount=request.amount,
         payment_date=request.payment_date,

@@ -8,8 +8,9 @@ class Reviews(Base):
     __tablename__ = "reviews"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    review = Column(String(100), nullable=False)
-    score = Column(Integer, nullable=False)
+    comment = Column(String(100), nullable=False)
+    rating = Column(Integer, nullable=False)
+    review_date = Column(DATETIME, nullable=False)
 
-    customer = Column(Integer, ForeignKey("customers.id"))
-    order = Column(Integer, ForeignKey("orders.id"))
+    customer_id = Column(Integer, ForeignKey("customers.id"))
+    order_id = Column(Integer, ForeignKey("orders.id"))
