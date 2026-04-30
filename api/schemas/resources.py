@@ -14,7 +14,7 @@ class ResourceCreate(ResourceBase):
 
 
 class ResourceUpdate(BaseModel):
-    item: Optional[str] = None
+    name: Optional[str] = None
     quantity: Optional[int] = None
 
 
