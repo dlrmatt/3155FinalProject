@@ -10,10 +10,10 @@ class OrderType(str, Enum):
 
 class OrderBase(BaseModel):
 
-    customer_id: int
-    tracking_number: str
-    order_date: datetime
-    total_price: float
+    customer_id: Optional[int] = "null"
+    guest_name: str
+    guest_email: str
+    guest_address: str
     description: Optional[str] = None
     order_status: str
     order_type: OrderType
@@ -32,8 +32,17 @@ class OrderUpdate(BaseModel):
 
 class Order(OrderBase):
     id: int
+    tracking_number: str
+    total_price: float
     order_date: Optional[datetime] = None
     order_details: list[OrderDetail] = None
+
+class TailoredOrder(BaseModel):
+    id: int
+    order_date: datetime
+    order_type: OrderType
+    menu_item_id: list[int]
+    description: Optional[str] = None
 
     class ConfigDict:
         from_attributes = True

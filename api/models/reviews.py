@@ -12,5 +12,5 @@ class Reviews(Base):
     rating = Column(Integer, nullable=False)
     review_date = Column(DATETIME, nullable=False)
 
-    customer_id = Column(Integer, ForeignKey("customers.id"))
+    customer_id = Column(Integer, ForeignKey("users.id"))
     order_id = Column(Integer, ForeignKey("orders.id"))

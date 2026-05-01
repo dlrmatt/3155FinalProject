@@ -17,5 +17,5 @@ class Promotions(Base):
     end_date = Column(DATETIME, nullable=False)
     is_active = Column(Boolean, default=True, nullable=False)
 
-    customer = Column(Integer, ForeignKey("customers.id"))
+    customer = Column(Integer, ForeignKey("users.id"))
     order = Column(Integer, ForeignKey("orders.id"))

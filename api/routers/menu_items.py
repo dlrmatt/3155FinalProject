@@ -10,6 +10,10 @@ router = APIRouter(
 )
 
 
+@router.get("/{food_category}", response_model=list[schema.MenuItem])
+def read_categories(food_category: str, db: Session = Depends(get_db)):
+    return controller.search_by_category(db=db, food_category=food_category)
+
 @router.post("/", response_model=schema.MenuItem)
 def create(request: schema.MenuItemCreate, db: Session = Depends(get_db)):
     return controller.create(db=db, request=request)

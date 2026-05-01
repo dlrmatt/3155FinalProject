@@ -3,7 +3,7 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class ReviewBase(BaseModel):
+class ReviewsBase(BaseModel):
     customer_id: int
     order_id: int
     rating: int
@@ -11,16 +11,16 @@ class ReviewBase(BaseModel):
     review_date: datetime
 
 
-class ReviewCreate(ReviewBase):
+class ReviewsCreate(ReviewsBase):
     pass
 
 
-class ReviewUpdate(BaseModel):
+class ReviewsUpdate(BaseModel):
     rating: Optional[int] = None
     comment: Optional[str] = None
 
 
-class Review(ReviewBase):
+class Review(ReviewsBase):
     id: int
 
     class ConfigDict:

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Response, Depends
 from ..models import payments as model
@@ -23,7 +25,7 @@ def create(db: Session, request):
         card_info=request.card_info,
         payment_method=request.payment_method,
         amount=request.amount,
-        payment_date=request.payment_date,
+        payment_date=datetime.now(),
         payment_status=calculated_status
     )
 

@@ -9,13 +9,10 @@ class PaymentMethod(str, Enum):
     debit_card = "debit_card"
 
 class Payment(BaseModel):
-    id: int
     order_id: int
     amount: float
     card_info: str
     payment_method: PaymentMethod
-    payment_status: str
-    payment_date: datetime
 
 
 class PaymentCreate(Payment):
@@ -31,6 +28,7 @@ class PaymentUpdate(BaseModel):
 
 class Payment(Payment):
     id: int
-
+    payment_status: str
+    payment_date: datetime
     class ConfigDict:
         from_attributes = True
