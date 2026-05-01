@@ -78,7 +78,12 @@ def create(db: Session, request):
             inventory_item.quantity -= qty
 
             if inventory_item.quantity == 0:
-                inventory_item.is_available = False
+                out_of_stock_item = db.query(menu_model.MenuItem).filter(
+                    menu_model.MenuItem.menu_item_id == item_id
+                ).first()
+
+                if out_of_stock_item:
+                    out_of_stock_item.is_available = False
             db.commit()
             db.refresh(inventory_item)
     
